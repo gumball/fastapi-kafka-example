@@ -22,8 +22,9 @@ def on_send_error(err):
 
 @app.get("/")
 async def read_root():
-    producer.send('json-topic', {"message": "Message added"})\
+    message = {"message": "Message added"}
+    producer.send('json-topic', message)\
         .add_callback(on_send_success)\
         .add_errback(on_send_error)
     producer.flush()
-    return {"message": "Message added"}
+    return message
